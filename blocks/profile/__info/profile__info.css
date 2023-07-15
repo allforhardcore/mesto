@@ -6,7 +6,7 @@
   gap: 16px;
   grid-template-areas:
   "heading button"
-  "caption caption"
+  "caption caption";
 }
 
 
@@ -16,6 +16,6 @@
     grid-template-rows: repeat(2, max-content);
     grid-template-areas:
     ". heading button"
-    ". caption ."
+    ". caption .";
   }
 }
