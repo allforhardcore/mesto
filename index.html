@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./pages/Index.css">
+  <title>Жак-Ив Кусто</title>
+  </head>
+
+  <body>
+
+    <div class="root">
+
+      <div class="popup">
+        <div class="popup__container">
+          <h2 class="popup__heading">Редактировать профиль</h2>
+
+          <fieldset class="popup__input-container">
+            <input class="popup__input-item popup__input-item_el_name" type="text" placeholder="Имя" value="Жак Ив Кусто">
+            <input class="popup__input-item popup__input-item_el_about" type="text" placeholder="О себе" value="Исследователь океана">
+          </fieldset>
+          <button class="popup__submit-button">Сохранить</button>
+          <button class="popup__close-button"></button>
+        </div>
+      </div>
+
+      <header class="header">
+        <img class="header__logo" src="./images/logo.svg" alt="лого">
+      </header>
+
+      <main>
+
+        <section class="profile">
+          <img class="profile__avatar" src="./images/avatar.jpg" alt="фото кусто">
+
+          <div class="profile__info">
+            <h1 class="profile__heading">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button"></button>
+            <p class="profile__caption">Исследователь океана</p>
+          </div>
+
+          <button class="profile__add-button"></button>
+        </section>
+
+        <section class="elements">
+          <article class="element">
+            <img class="element__picture" src="./images/dyra.jpg" alt="Большая голубая дыра">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Голубая дыра</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+
+          <article class="element">
+            <img class="element__picture" src="./images/kayman.jpg" alt="Каймановы острова">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Каймановы острова</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+
+          <article class="element">
+            <img class="element__picture" src="./images/amazonka.jpg" alt="Амазонка">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Амазонка</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+
+          <article class="element">
+            <img class="element__picture" src="./images/antarktida.jpg" alt="Антарктида">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Антарктида</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+
+          <article class="element">
+            <img class="element__picture" src="./images/madagaskar.jpg" alt="Мадагаскар">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Мадагаскар</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+
+          <article class="element">
+            <img class="element__picture" src="./images/riff.jpeg" alt="Большоай карьерный риф">
+            <div class="element__content-wrapper">
+              <h2 class="element__heading">Большой карьерный риф</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </article>
+        </section>
+
+      </main>
+
+      <footer class="footer">
+        <p class="footer__credits">© 2020 Mesto Russia</p>
+      </footer>
+
+    </div>
+
+    <script src="scripts/Index.js"></script>
+  </body>
