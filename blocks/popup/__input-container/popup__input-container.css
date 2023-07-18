@@ -6,3 +6,11 @@
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width: 510px) {
+  .popup__input-container{
+    padding: 48px 24px 0 24px;
+    width: calc(100% - 48px);
+    max-height: 320px;
+  }
+}
