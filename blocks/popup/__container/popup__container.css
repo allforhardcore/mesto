@@ -14,5 +14,7 @@
 @media screen and (max-width: 470px) {
   .popup__container {
     width: calc(100% - 40px);
+    min-height: 320px;
+    justify-content: space-between;
   }
 }

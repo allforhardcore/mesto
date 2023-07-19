@@ -8,20 +8,18 @@ let profileHeading = document.querySelector('.profile__heading');
 let profileCaption = document.querySelector('.profile__caption');
 
 function showPopup() {
-  popup.classList.remove("popup_state_hide");
   popup.classList.add("popup_state_show");
 
   let headingContent = profileHeading.textContent;
   nameInput.value = headingContent;
 
   let captionContent = profileCaption.textContent;
-  jobInputInput.value = captionContent;
+  jobInput.value = captionContent;
 
 }
 
 function hidePopup() {
   popup.classList.remove("popup_state_show");
-  popup.classList.add("popup_state_hide");
 }
 
 

@@ -5,3 +5,10 @@
   font-size: 18px;
   line-height: 1.2;
 }
+
+@media screen and (max-width: 679px) {
+  .footer__credits {
+    font-size: 14px;
+    line-height: 14px;
+  }
+}
