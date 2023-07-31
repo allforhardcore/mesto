@@ -1,3 +1,4 @@
 .popup_state_show {
-  display: flex;
+  opacity: 1;
+  height: 100vh;
 }
