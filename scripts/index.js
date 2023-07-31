@@ -58,7 +58,6 @@ function createCard(cardData) {
   deleteButton.setAttribute('aria-label', 'удалить');
   deleteButton.addEventListener('click', deleteCard);
 
-
   const cardImage = document.createElement('img');
   cardImage.classList.add('element__picture');
   cardImage.src = cardData.link;
@@ -76,6 +75,7 @@ function createCard(cardData) {
   likeButton.classList.add('element__like-button');
   likeButton.setAttribute('type', 'button');
   likeButton.setAttribute('aria-label', 'лайк');
+  likeButton.addEventListener('click', likeCard);
 
   contentWrapper.appendChild(cardHeading);
   contentWrapper.appendChild(likeButton);
@@ -111,18 +111,22 @@ function showPopup() {
 
   if (this === addButton) {
     popupContentPlace.classList.add('popup__container_state_show');
+
   } else if (this === editButton) {
     popupContentProfile.classList.add('popup__container_state_show');
     let headingContent = profileHeading.textContent;
     nameInput.value = headingContent;
     let captionContent = profileCaption.textContent;
     jobInput.value = captionContent;
+
   } else if (this.classList.contains('element__picture')) {
+    popupContentImage.classList.add('popup__container_state_show');
+
     const cardElement = this.parentElement;
     const cardHeading = cardElement.querySelector('.element__heading');
     const cardImage = cardElement.querySelector('.element__picture');
     const popupCaption = document.querySelector('.popup__caption');
-    popupContentImage.classList.add('popup__container_state_show');
+
     popupImage.src = cardImage.src;
     popupImage.alt = cardImage.alt;
     popup.classList.add('popup_background_dark');
@@ -149,6 +153,7 @@ function handleFormSubmit(evt) {
       name: newName,
       link: newImageLink
     };
+
     const newCard = createCard(newCardData);
     cardsContainer.prepend(newCard);
     popupForm.forEach(form => form.reset());
