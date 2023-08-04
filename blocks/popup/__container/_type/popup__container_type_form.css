@@ -1,4 +1,4 @@
-.popup__container_type_profile {
+.popup__container_type_form {
   width: 430px;
   height: fit-content;
   background-color: #fff;
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 470px) {
-  .popup__container_type_profile {
+  .popup__container_type_form {
     width: calc(100% - 40px);
     min-height: 320px;
     justify-content: space-between;

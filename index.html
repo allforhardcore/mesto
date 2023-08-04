@@ -9,76 +9,88 @@
 
   <body>
 
+    <template id="element">
+      <article class="element">
+        <img class="element__picture" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pix.gif" alt="изображение в карточке">
+        <button class="element__delete-button" type="button" aria-label="удалить"></button>
+        <div class="element__content-wrapper">
+          <h2 class="element__heading"></h2>
+          <button class="element__like-button" type="button" aria-label="лайк"></button>
+        </div>
+      </article>
+    </template>
+
     <div class="root">
 
-      <div class="root">
-
-        <div class="popup">
-
-          <div class="popup__container popup__container_type_profile">
-            <h2 class="popup__heading">Редактировать профиль</h2>
-            <form class="popup__form" name="popupForm">
-              <fieldset class="popup__input-container">
-                <input class="popup__input-item popup__input-item_el_name" type="text" placeholder="Имя" value="Жак Ив Кусто" name="popupInputName">
-                <input class="popup__input-item popup__input-item_el_about" type="text" placeholder="О себе" value="Исследователь океана" name="popupInputAbout">
-              </fieldset>
-              <button class="popup__submit-button" type="submit">Сохранить</button>
-              <button class="popup__close-button" type="button" aria-label="кнопка закрыть"></button>
-            </form>
-          </div>
-
-          <div class="popup__container popup__container_type_place">
-            <h2 class="popup__heading">Новое место</h2>
-            <form class="popup__form" name="popupForm">
-              <fieldset class="popup__input-container">
-                <input class="popup__input-item popup__input-item_el_place" type="text" placeholder="Название" name="popupInputPlace">
-                <input class="popup__input-item popup__input-item_el_image" type="text" placeholder="Ссылка на картинку" name="popupInputImage">
-              </fieldset>
-              <button class="popup__submit-button" type="submit">Создать</button>
-              <button class="popup__close-button" type="button" aria-label="кнопка закрыть"></button>
-            </form>
-          </div>
-
-          <div class="popup__container popup__container_type_image">
-            <img class="popup__image" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pix.gif" alt="иллюстрация">
-            <p class="popup__caption"></p>
+      <div class="popup popup_type_profile">
+        <div class="popup__container popup__container_type_form">
+          <h2 class="popup__heading">Редактировать профиль</h2>
+          <form class="popup__form" name="formProfile">
+            <fieldset class="popup__input-container">
+              <input class="popup__input-item popup__input-item_el_name" type="text" placeholder="Имя" value="Жак Ив Кусто" name="popupInputName">
+              <input class="popup__input-item popup__input-item_el_about" type="text" placeholder="О себе" value="Исследователь океана" name="popupInputAbout">
+            </fieldset>
+            <button class="popup__submit-button" type="submit">Сохранить</button>
             <button class="popup__close-button" type="button" aria-label="кнопка закрыть"></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup popup_type_place ">
+        <div class="popup__container popup__container_type_form">
+          <h2 class="popup__heading">Новое место</h2>
+          <form class="popup__form" name="formPlace">
+            <fieldset class="popup__input-container">
+              <input class="popup__input-item popup__input-item_el_place" type="text" placeholder="Название" name="popupInputPlace">
+              <input class="popup__input-item popup__input-item_el_image" type="text" placeholder="Ссылка на картинку" name="popupInputImage">
+            </fieldset>
+            <button class="popup__submit-button" type="submit">Создать</button>
+            <button class="popup__close-button" type="button" aria-label="кнопка закрыть"></button>
+          </form>
+        </div>
+      </div>
+
+       <div class="popup popup_type_image">
+        <div class="popup__container  popup__container_type_image">
+          <img class="popup__image" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pix.gif" alt="иллюстрация">
+          <p class="popup__caption"></p>
+          <button class="popup__close-button" type="button" aria-label="кнопка закрыть"></button>
+        </div>
+      </div>
+
+      <header class="header">
+        <img class="header__logo" src="./images/logo.svg" alt="лого">
+      </header>
+
+      <main>
+
+        <section class="profile">
+          <img class="profile__avatar" src="./images/avatar.jpg" alt="фото кусто">
+
+          <div class="profile__info">
+            <h1 class="profile__heading">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button" type="button" aria-label="кнопка редактировать"></button>
+            <p class="profile__caption">Исследователь океана</p>
           </div>
 
-        </div>
+          <button class="profile__add-button" type="button" aria-label="кнопка добавить"></button>
+        </section>
 
-        <header class="header">
-          <img class="header__logo" src="./images/logo.svg" alt="лого">
-        </header>
+        <section class="elements">
 
-        <main>
+        </section>
 
-          <section class="profile">
-            <img class="profile__avatar" src="./images/avatar.jpg" alt="фото кусто">
+      </main>
 
-            <div class="profile__info">
-              <h1 class="profile__heading">Жак-Ив Кусто</h1>
-              <button class="profile__edit-button" type="button" aria-label="кнопка редактировать"></button>
-              <p class="profile__caption">Исследователь океана</p>
-            </div>
-
-            <button class="profile__add-button" type="button" aria-label="кнопка добавить"></button>
-          </section>
-
-          <section class="elements">
-
-          </section>
-
-        </main>
-
-        <footer class="footer">
-          <p class="footer__credits">© 2020 Mesto Russia</p>
-        </footer>
-
-      </div>
+      <footer class="footer">
+        <p class="footer__credits">© 2020 Mesto Russia</p>
+      </footer>
 
     </div>
 
+    <script src="scripts/constants.js"></script>
     <script src="scripts/index.js"></script>
+
   </body>
+
 </html>
