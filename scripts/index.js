@@ -2,8 +2,7 @@ const showPopup = popup => {
   popup.classList.add("popup_state_show");
 }
 
-const hidePopup = event => {
-  const popup = event.target.closest('.popup');
+const hidePopup = popup=> {
   popup.classList.remove('popup_state_show');
 }
 
@@ -21,8 +20,18 @@ function createCard(cardData) {
 
   deleteButton.addEventListener('click', deleteCard);
   likeButton.addEventListener('click', likeCard);
-  cardImage.addEventListener('click', () => showPopup(popupPic));
-  cardImage.addEventListener('click', previewImage);
+  cardImage.addEventListener('click', () => {
+    previewImage(cardData);
+    showPopup(popupPic);
+  });
+
+  function previewImage({link, name}) {
+    const popupCaption = document.querySelector('.popup__caption');
+    const popupImage = document.querySelector('.popup__image');
+    popupImage.src = cardImage.link;
+    popupImage.alt = cardImage.name;
+    popupCaption.textContent = name;
+  }
 
   return cardElement;
 }
@@ -71,18 +80,6 @@ function handleProfileFormSubmit(evt) {
   hidePopup(evt);
 }
 
-function previewImage() {
-  const cardElement = this.closest('.element');
-  const cardHeading = cardElement.querySelector('.element__heading');
-  const cardImage = cardElement.querySelector('.element__picture');
-  const popupCaption = document.querySelector('.popup__caption');
-  const popupImage = document.querySelector('.popup__image');
-
-  popupImage.src = cardImage.src;
-  popupImage.alt = cardImage.alt;
-  popupCaption.textContent = cardHeading.textContent;
-}
-
 addButton.addEventListener('click', () => showPopup(popupPlace));
 editButton.addEventListener('click', () => showPopup(popupProfile));
 
@@ -90,5 +87,6 @@ placeForm.addEventListener('submit', handlePlaceFormSubmit);
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 closeButtons.forEach((button) => {
-  button.addEventListener('click', hidePopup);
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => hidePopup(popup));
 });
