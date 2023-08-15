@@ -15,16 +15,16 @@ const popupPic = document.querySelector('.popup_type_image');
 
 const popupImage = document.querySelector('.popup__image');
 
+const formPlace = document.forms.formPlace;
+const formProfile = document.forms.formProfile;
 
-const nameInput = document.querySelector('.popup__input-item_el_name');
-const jobInput = document.querySelector('.popup__input-item_el_about');
-const placeInput = document.querySelector('.popup__input-item_el_place');
-const imageInput = document.querySelector('.popup__input-item_el_image');
+const nameInput = formProfile.elements.popupInputProfileName;
+const jobInput = formProfile.elements.popupInputProfileAbout;
+const placeInput = formPlace.elements.popupInputPlaceName;
+const imageInput = formPlace.elements.popupInputImageLink;
 
 const cardsContainer = document.querySelector('.elements');
 
-const placeForm = document.forms.formPlace;
-const profileForm = document.forms.formProfile;
 
 const initialCards = [
   {

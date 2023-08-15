@@ -3,6 +3,7 @@
   width: calc(100% - 72px);
   height: 48px;
   border: none;
+  border-radius: 2px;
   background-color: #000;
   color: #fff;
   font-size: 18px;
