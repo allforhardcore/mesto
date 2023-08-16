@@ -1,6 +1,8 @@
-const popupForm = document.querySelectorAll('.popup__form');
+const cardTemplate = document.querySelector('#element').content;
+
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const popup = document.querySelectorAll('.popup');
+const cardsContainer = document.querySelector('.elements');
 const cardImages = document.querySelectorAll('.element__picture');
 
 const profileHeading = document.querySelector('.profile__heading');
@@ -8,13 +10,15 @@ const profileCaption = document.querySelector('.profile__caption');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
-
 const popupProfile = document.querySelector('.popup_type_profile');
 const popupPlace = document.querySelector('.popup_type_place');
 const popupPic = document.querySelector('.popup_type_image');
 
 const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
 
+const popupForm = document.querySelectorAll('.popup__form');
+const submitButton = document.querySelector('.popup__submit-button');
 const formPlace = document.forms.formPlace;
 const formProfile = document.forms.formProfile;
 
@@ -23,7 +27,7 @@ const jobInput = formProfile.elements.popupInputProfileAbout;
 const placeInput = formPlace.elements.popupInputPlaceName;
 const imageInput = formPlace.elements.popupInputImageLink;
 
-const cardsContainer = document.querySelector('.elements');
+
 
 
 const initialCards = [
