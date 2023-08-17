@@ -1,3 +1,4 @@
+
 const showPopup = (popup) => {
   popup.classList.add('popup_state_show');
   document.addEventListener('keydown', hidePopupOnEsc);
@@ -65,62 +66,52 @@ function deleteCard(event) {
     card.remove();
 }
 
-function handlePlaceFormSubmit(evt) {
-  evt.preventDefault();
-  checkInputValidity(formPlace, placeInput);
-  checkInputValidity(formPlace, imageInput);
-
-  const newCardData = {
-    name: placeInput.value,
-    link: imageInput.value
-  };
-
-  const newCard = createCard(newCardData);
-  cardsContainer.prepend(newCard);
-  formPlace.reset();
-  hidePopup(popupPlace);
-}
-
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  checkInputValidity(formProfile, nameInput);
-  checkInputValidity(formProfile, jobInput);
-
   const newName = nameInput.value;
   const newJob = jobInput.value;
   profileHeading.textContent = newName;
   profileCaption.textContent = newJob;
 
   hidePopup(popupProfile);
-  formProfile.reset();
-  submitButton.setAttribute('disabled', true);
-  submitButton.classList.add('popup__submit-button_disabled');
 }
+
+function handlePlaceFormSubmit(evt) {
+  evt.preventDefault();
+
+  const newCardData = {
+    name: placeInput.value,
+    link: imageInput.value
+  };
+  const newCard = createCard(newCardData);
+  cardsContainer.prepend(newCard);
+
+  hidePopup(popupPlace);
+  formPlace.reset();
+}
+
+const inputErrorReset = (popupForm) => {
+  const inputErrorElements = popupForm.querySelectorAll('.popup__input-error');
+  inputErrorElements.forEach(errorElement => {
+    errorElement.textContent = '';
+  });
+};
 
 addButton.addEventListener('click', () => {
   placeInput.value = '';
   imageInput.value = '';
-  toggleButtonState(Array.from(formPlace.querySelectorAll('.popup__input-item')), submitButton);
-  showPopup(popupPlace);
-});
 
-addButton.addEventListener('click', () => {
-  const inputErrorElements = formPlace.querySelectorAll('.popup__input-error');
-  inputErrorElements.forEach(errorElement => {
-    errorElement.textContent = ''; //не очищались ошибки валидации при закрытии с неверно заполненными полями и последующем открытии
-  });
-  toggleButtonState(Array.from(formPlace.querySelectorAll('.popup__input-item')), submitButton);
+  formProfile.reset();
+  inputErrorReset(formPlace);
   showPopup(popupPlace);
 });
 
 editButton.addEventListener('click', () => {
   nameInput.value = profileHeading.textContent;
   jobInput.value = profileCaption.textContent;
-  toggleButtonState(Array.from(formProfile.querySelectorAll('.popup__input-item')), submitButton);
+  inputErrorReset(formProfile);
   showPopup(popupProfile);
 });
-
-editButton.addEventListener('click', () => showPopup(popupProfile));
 
 formPlace.addEventListener('submit', handlePlaceFormSubmit);
 formProfile.addEventListener('submit', handleProfileFormSubmit);
@@ -130,5 +121,4 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => hidePopup(popup));
 });
 
-const resetForms = () => {
-};
+

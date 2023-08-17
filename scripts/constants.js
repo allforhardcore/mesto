@@ -28,8 +28,6 @@ const placeInput = formPlace.elements.popupInputPlaceName;
 const imageInput = formPlace.elements.popupInputImageLink;
 
 
-
-
 const initialCards = [
   {
     name: 'Vossebanen, Fjeldport ved Bolstad Dato',
