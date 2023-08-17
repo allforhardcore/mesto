@@ -2,56 +2,56 @@ const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => !inputElement.validity.valid);
 };
 
-function checkInputValidity(formElement, inputElement) {
+function checkInputValidity(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
 
   if (!inputElement.validity.valid) {
     errorElement.textContent = inputElement.validationMessage;
-    inputElement.classList.add('popup__input-item_type_error');
-    errorElement.classList.add('popup__input-error_active');
+    inputElement.classList.add(settings.inputErrorClass);
+    errorElement.classList.add(settings.errorClass);
   } else {
     errorElement.textContent = '';
-    inputElement.classList.remove('popup__input-item_type_error');
-    errorElement.classList.remove('popup__input-error_active');
+    inputElement.classList.remove(settings.inputErrorClass);
+    errorElement.classList.remove(settings.errorClass);
   }
 }
 
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
+function enableValidation(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
 
-    const submitButton = formElement.querySelector('.popup__submit-button');
+    const submitButton = formElement.querySelector(settings.submitButtonSelector);
     submitButton.setAttribute('disabled', true);
 
-    setEventListeners(formElement, submitButton);
+    setEventListeners(formElement, submitButton, settings);
   });
 }
 
-function toggleButtonState(buttonElement, inputList) {
+function toggleButtonState(buttonElement, inputList, initialValues, settings) {
   if (hasInvalidInput(inputList)) {
     buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.add('popup__submit-button_disabled');
+    buttonElement.classList.add(settings.inactiveButtonClass);
   } else {
     buttonElement.removeAttribute('disabled');
-    buttonElement.classList.remove('popup__submit-button_disabled');
+    buttonElement.classList.remove(settings.inactiveButtonClass);
   }
 }
 
-function setEventListeners(formElement, submitButton) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input-item'));
+function setEventListeners(formElement, submitButton, settings) {
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
 
   const initialValues = inputList.map(inputElement => inputElement.value);
 
-  toggleButtonState(submitButton, inputList, initialValues);
+  toggleButtonState(submitButton, inputList, initialValues, settings);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(submitButton, inputList, initialValues);
+      checkInputValidity(formElement, inputElement, settings);
+      toggleButtonState(submitButton, inputList, initialValues, settings);
     });
   });
 }
@@ -66,5 +66,3 @@ enableValidation({
 });
 
 
-
-// не могу понять почему не срабатывает блокировка кнопки сабмита после добавления карточки... в инспекторе кода как будто видно что этот класс что то снимает..

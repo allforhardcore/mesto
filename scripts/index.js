@@ -101,9 +101,14 @@ addButton.addEventListener('click', () => {
   placeInput.value = '';
   imageInput.value = '';
 
+  const submitButton = popupPlace.querySelector('.popup__submit-button');
+  submitButton.setAttribute('disabled', true);
+  submitButton.classList.add('popup__submit-button_disabled');
+
   formProfile.reset();
   inputErrorReset(formPlace);
   showPopup(popupPlace);
+
 });
 
 editButton.addEventListener('click', () => {
