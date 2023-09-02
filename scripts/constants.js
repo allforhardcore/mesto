@@ -17,7 +17,7 @@ const popupPic = document.querySelector('.popup_type_image');
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
 
-const popupForm = document.querySelectorAll('.popup__form');
+const popupForms = document.querySelectorAll('.popup__form');
 const submitButton = document.querySelector('.popup__submit-button');
 const formPlace = document.forms.formPlace;
 const formProfile = document.forms.formProfile;
@@ -27,6 +27,14 @@ const jobInput = formProfile.elements.popupInputProfileAbout;
 const placeInput = formPlace.elements.popupInputPlaceName;
 const imageInput = formPlace.elements.popupInputImageLink;
 
+const formValidatorConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input-item',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input-item_type_error',
+  errorClass: 'popup__error_visible'
+};
 
 const initialCards = [
   {

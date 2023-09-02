@@ -44,6 +44,11 @@ class FormValidator {
     }
   }
 
+  _hideError(errorElement) {
+    errorElement.textContent = '';
+    errorElement.classList.remove(this._config.errorClass);
+  }
+
   _hasInvalidInput() {
     return this._inputList.some(inputElement => !inputElement.validity.valid);
   }
@@ -51,6 +56,19 @@ class FormValidator {
   enableValidation() {
     this._formElement.setAttribute('novalidate', true);
   }
+
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideError(inputElement);
+    });
+    const errorElements = this._formElement.querySelectorAll('.popup__input-error');
+    errorElements.forEach((errorElement) => {
+      errorElement.textContent = '';
+    });
+  }
+
+
 }
 
 export default FormValidator;
