@@ -1,9 +1,7 @@
 const cardTemplate = document.querySelector('#element').content;
 
 const closeButtons = document.querySelectorAll('.popup__close-button');
-const popup = document.querySelectorAll('.popup');
 const cardsContainer = document.querySelector('.elements');
-const cardImages = document.querySelectorAll('.element__picture');
 
 const profileHeading = document.querySelector('.profile__heading');
 const profileCaption = document.querySelector('.profile__caption');

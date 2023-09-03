@@ -47,10 +47,10 @@ initialCards.forEach((cardData) => {
   addCardToContainer(cardElement, cardsContainer);
 });
 
-const profileFormValidator = new FormValidator(formValidatorConfig, document.querySelector('.popup_type_profile'));
+const profileFormValidator = new FormValidator(formValidatorConfig, document.forms["formProfile"]);
 profileFormValidator.enableValidation();
 
-const placeFormValidator = new FormValidator(formValidatorConfig, document.querySelector('.popup_type_place'));
+const placeFormValidator = new FormValidator(formValidatorConfig, document.forms["formPlace"]);
 placeFormValidator.enableValidation();
 
 function handleProfileFormSubmit(evt) {
@@ -74,7 +74,6 @@ function handlePlaceFormSubmit(evt) {
   const cardElement = createCard(newCardData);
   cardsContainer.prepend(cardElement);
   hidePopup(popupPlace);
-
 }
 
 addButton.addEventListener('click', () => {
@@ -84,7 +83,6 @@ addButton.addEventListener('click', () => {
 });
 
 editButton.addEventListener('click', () => {
-  formProfile.reset();
   profileFormValidator.resetValidation();
   nameInput.value = profileHeading.textContent;
   jobInput.value = profileCaption.textContent;
