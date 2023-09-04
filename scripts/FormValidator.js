@@ -25,9 +25,12 @@ class FormValidator {
 
   _checkInputValidity(inputElement) {
     const errorElement = this._formElement.querySelector(`#${inputElement.name}-error`);
-    inputElement.validity.valid
+    if (!inputElement.validity.valid) {
     errorElement.textContent = inputElement.validationMessage;
     inputElement.classList.add(this._config.inputErrorClass);
+    } else {
+      this._hideError(errorElement);
+    }
   }
 
   _toggleButtonState() {
