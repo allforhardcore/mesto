@@ -18,6 +18,8 @@ class Card {
 
   _handleDeleteClick = () => {
     this._card.remove();
+    this._cardImage = null;
+    this._cardHeading = null;
     this._card = null;
   }
 

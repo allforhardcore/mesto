@@ -6,7 +6,6 @@ class PopupWithForm extends Popup {
     this._submitCallback = submitCallback;
     this._form = this._popup.querySelector('.popup__form');
     this._inputList = this._form.querySelectorAll('.popup__input-item');
-    this._submitButton = this._form.querySelector('.popup__submit-button');
   }
 
   _getInputValues() {

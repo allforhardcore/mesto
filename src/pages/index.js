@@ -1,4 +1,4 @@
-import '../pages/index.css';
+import './index.css';
 import {cardTemplate,
         closeButtons,
         profileHeading,
@@ -17,16 +17,15 @@ import {cardTemplate,
         imageInput,
         formValidatorConfig,
         initialCards
-      } from '../scripts/constants.js';
-import Card from '../scripts/Card.js';
-import Section from '../scripts/Section.js';
-import FormValidator from '../scripts/FormValidator.js';
-import PopupWithImage from '../scripts/PicturePopup.js';
-import PopupWithForm from '../scripts/PopupWithForm.js';
-import UserInfo from '../scripts/UserInfo.js';
+      } from '../utils/constants.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
+import FormValidator from '../components/FormValidator.js';
+import PicturePopup from '../components/PicturePopup.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
-
-const popupPic = new PopupWithImage('.popup_type_image');
+const popupPic = new PicturePopup('.popup_type_image');
 const userInfo = new UserInfo({
   nameSelector: '.profile__heading',
   aboutSelector: '.profile__caption'
@@ -60,28 +59,25 @@ function hidePopup(popup) {
 }
 
 function createCard(item) {
-  const card = new Card(item, '#element', ({ src, alt }) => {
-    popupPic.open({ src, alt });
+  const card = new Card(item, '#element', (cardData) => {
+    popupPic.open(cardData);
   });
   return card.createCard();
 }
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  const newName = nameInput.value;
-  const newJob = jobInput.value;
+function handleProfileFormSubmit(inputValues) {
+  const newName = inputValues.popupInputProfileName;
+  const newJob = inputValues.popupInputProfileAbout;
 
   userInfo.setUserInfo({ name: newName, about: newJob });
 
   hidePopup(popupProfile);
 }
 
-function handlePlaceFormSubmit(evt) {
-  evt.preventDefault();
-
+function handlePlaceFormSubmit(inputValues) {
   const newCardData = {
-    name: placeInput.value,
-    link: imageInput.value
+    name: inputValues.popupInputPlaceName,
+    link: inputValues.popupInputImageLink
   };
 
   const cardElement = createCard(newCardData);
@@ -90,7 +86,6 @@ function handlePlaceFormSubmit(evt) {
 }
 
 addButton.addEventListener('click', () => {
-  formPlace.reset();
   placeFormValidator.resetValidation();
   showPopup(popupPlace);
 });
@@ -103,9 +98,6 @@ editButton.addEventListener('click', () => {
   showPopup(popupProfile);
 });
 
-formPlace.addEventListener('submit', handlePlaceFormSubmit);
-formProfile.addEventListener('submit', handleProfileFormSubmit);
+popupPlace.setEventListeners();
+popupProfile.setEventListeners();
 
-popupProfile.setCloseButtonClickHandler(() => popupProfile.close());
-popupPlace.setCloseButtonClickHandler(() => popupPlace.close());
-popupPic.setCloseButtonClickHandler(() => popupPic.close());
