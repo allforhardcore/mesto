@@ -9,8 +9,12 @@ class Section {
     this._items.forEach(this._renderer);
   }
 
-  addItem(element) {
+  addItemPreview(element) {
     this._container.prepend(element);
+  }
+
+  setItems = (items) => {
+    this._items = items
   }
 }
 

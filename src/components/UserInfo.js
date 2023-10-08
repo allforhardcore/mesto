@@ -1,5 +1,5 @@
 class UserInfo {
-  constructor({ nameSelector, aboutSelector }) {
+  constructor({ nameSelector, aboutSelector}) {
     this._nameElement = document.querySelector(nameSelector);
     this._aboutElement = document.querySelector(aboutSelector);
   }
@@ -15,6 +15,7 @@ class UserInfo {
     this._nameElement.textContent = name;
     this._aboutElement.textContent = about;
   }
+
 }
 
 export default UserInfo;
