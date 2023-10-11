@@ -19,6 +19,7 @@ export const formPlace = document.forms.formPlace;
 export const formProfile = document.forms.formProfile;
 export const formAvatar = document.forms.formAvatar;
 
+export const avatarInput = formAvatar.elements.popupInputAvatarLink;
 export const nameInput = formProfile.elements.popupInputProfileName;
 export const jobInput = formProfile.elements.popupInputProfileAbout;
 export const placeInput = formPlace.elements.popupInputPlaceName;
@@ -33,4 +34,4 @@ export const formValidatorConfig = {
   errorClass: 'popup__error_visible'
 };
 
-export const myId = '3bbb76c95a23d91133e55a38';
+

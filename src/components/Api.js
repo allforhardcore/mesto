@@ -16,9 +16,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
     getUserInfo() {
       return this._getRequest(`${this.baseUrl}/users/me`);
@@ -40,9 +37,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
 
     setAvatar(data) {
@@ -57,9 +51,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
 
     addCard(data) {
@@ -74,9 +65,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
 
     removeCard(cardId) {
@@ -90,9 +78,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
 
     likeCard(cardId) {
@@ -106,9 +91,6 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
 
     removeLike(cardId) {
@@ -122,8 +104,5 @@ export class Api {
           }
           throw new Error('Что-то пошло не так...');
         })
-        .catch((error) => {
-          console.log(error);
-        });
     }
   }

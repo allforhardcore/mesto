@@ -14,6 +14,7 @@ import {cardTemplate,
         formPlace,
         formProfile,
         formAvatar,
+        avatarInput,
         nameInput,
         jobInput,
         placeInput,
@@ -28,7 +29,6 @@ import PopupWithPicture from '../components/PopupWithPicture.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirmation from '../components/popupWithConfirmation';
 import UserInfo from '../components/UserInfo.js';
-import Avatar from '../components/Avatar.js';
 import {Api} from '../components/Api.js'
 
 //------------------------------------------------------------------------------------- Апи
@@ -37,41 +37,47 @@ const api = new Api({
   authorization: '5cd71d81-2a88-497e-99eb-8405496caa7c',
 });
 
-//------------------------------------------------------------------------------------- Получение данных о карточках
-const loadCards = () => {
-  api.getInitialCards()
-  .then((data) => {
-    cardsSection.setItems(data.reverse())
-    cardsSection.renderItems();
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+//------------------------------------------------------------------------------------- Получение данных о пользователе и карточках
+function loadFullData() {
+  Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, cardsData]) => {
+      userInfo.setUserInfo({
+        name: userData.name,
+        about: userData.about,
+        avatar: userData.avatar,
+        _id: userData._id
+      });
+
+      cardsSection.setItems(cardsData.reverse());
+      cardsSection.renderItems();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
-//------------------------------------------------------------------------------------- Загрузка страницы
-loadCards();
 
-//------------------------------------------------------------------------------------- Аватар
-const avatarInput = formAvatar.elements.popupInputAvatarLink;
-const avatar = new Avatar(avatarPicture, avatarInput);
+//------------------------------------------------------------------------------------- Загрузка страницы
+loadFullData();
 
 //------------------------------------------------------------------------------------- Информация о пользователе
 const userInfo = new UserInfo({
   nameSelector: '.profile__heading',
   aboutSelector: '.profile__caption',
+  avatarSelector: '.profile__picture'
 });
 
 const loadUserData = () => {
   api.getUserInfo()
   .then((data) => {
-    userInfo.setUserInfo( {name: data.name, about: data.about })
-    avatar.setAvatar(data.avatar);
+    userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar, _id: data._id})
   })
   .catch((error) => {
     console.log(error);
   });
 }
+
+
 
 loadUserData();
 
@@ -119,44 +125,50 @@ function createCard(item) {
     api.removeCard(card._id).then(() => console.log('Deleted'))
   },
   (card) => {
-    if(card._canLike) {
+    if (card._canLike) {
       return api.likeCard(card._id)
     } else {
       return api.removeLike(card._id)
     }
-  }
+  },
+  userInfo.getUserInfo()._id
   );
   return card.createCard();
 }
 
 //------------------------------------------------------------------------------------- Ручка сабмита Аватар
 function handleAvatarFormSubmit() {
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...'
-  api.setAvatar({avatar: avatarInput.value})
-  .then((data) => {
-    avatar.setAvatar(data.avatar);
-  document.querySelector(activeSubmitButton).textContent = 'Сохранить'
-    hidePopup(popupAvatar);
-  })
-  .catch((error) => {
-    console.log('Что-то пошло не так...')
-  });
+  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
+  api.setAvatar({ avatar: avatarInput.value })
+    .then((data) => {
+      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar });
+    })
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
+    .finally(() => {
+      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
+      hidePopup(popupAvatar);
+    });
 }
+
 
 //------------------------------------------------------------------------------------- Ручка сабмита Профайл
 function handleProfileFormSubmit(inputValues) {
   const newName = inputValues.popupInputProfileName;
   const newJob = inputValues.popupInputProfileAbout;
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...'
+  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
   api.editUserInfo({ name: newName, about: newJob })
-  .then((data) => {
-    userInfo.setUserInfo({ name: data.name, about: data.about });
-    document.querySelector(activeSubmitButton).textContent = 'Сохранить'
-    hidePopup(popupAvatar);
-  })
-  .catch((error) => {
-    console.log('Что-то пошло не так...')
-  });
+    .then((data) => {
+      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar });
+    })
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
+    .finally(() => {
+      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
+      hidePopup(popupProfile);
+    });
 }
 
 //------------------------------------------------------------------------------------- Ручка сабмита Карточка
@@ -167,13 +179,18 @@ function handlePlaceFormSubmit(inputValues) {
     _id: 'fake'
   };
   const cardElement = createCard(newCardData);
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...'
+  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
   api.addCard(newCardData)
-  .then(() => {
-    loadCards()
-    document.querySelector(activeSubmitButton).textContent = 'Сохранить'
-    hidePopup(popupPlace);
-  })
+    .then(() => {
+      loadCards();
+    })
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
+    .finally(() => {
+      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
+      hidePopup(popupPlace);
+    });
 }
 
 //------------------------------------------------------------------------------------- Добавление слушателя Aватар

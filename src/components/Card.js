@@ -1,7 +1,5 @@
-import { myId } from "../utils/constants";
-
 class Card {
-  constructor(data, templateSelector, handleCardClick, popupWithConfirmation, deleteHandler, likeHandler) {
+  constructor(data, templateSelector, handleCardClick, popupWithConfirmation, deleteHandler, likeHandler, userId) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
@@ -10,9 +8,10 @@ class Card {
     this._handleCardClick = handleCardClick;
     this._cardImage = null;
     this._popupWithConfirmation = popupWithConfirmation;
-    this._canDelete = data.owner ? data.owner._id === myId : false;
+    this._canDelete = data.owner ? data.owner._id === userId : false;
     this._deleteHandler = deleteHandler;
-    this._likeHandler = likeHandler
+    this._likeHandler = likeHandler;
+    this._userId = userId;
   }
 
   _getTemplate() {
@@ -23,9 +22,10 @@ class Card {
   _handleLikeClick = (event) => {
     this._cardLikesCounter = this._card.querySelector('.element__like-counter');
     this._cardLikesBtn = this._card.querySelector('.element__like-button');
-    this._likeHandler(this).then((data) => {
+    this._likeHandler(this)
+    .then((data) => {
       this._likes = data.likes;
-      this._canLike = data.likes.find((userLikes) => userLikes._id === myId) ? false : true;
+      this._canLike = data.likes.find((userLikes) => userLikes._id === this._userId) ? false : true;
       if(this._canLike) {
         this._cardLikesBtn.classList.remove('element__like-button_state_activated')
       }else{
@@ -85,3 +85,4 @@ class Card {
 }
 
 export default Card;
+
