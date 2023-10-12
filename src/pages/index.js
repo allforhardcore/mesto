@@ -77,8 +77,6 @@ const loadUserData = () => {
   });
 }
 
-
-
 loadUserData();
 
 //------------------------------------------------------------------------------------- Создание попапов
@@ -179,18 +177,18 @@ function handlePlaceFormSubmit(inputValues) {
     _id: 'fake'
   };
   const cardElement = createCard(newCardData);
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
+  document.querySelector(activeSubmitButton).textContent = 'Сохранение...'
   api.addCard(newCardData)
-    .then(() => {
-      loadCards();
-    })
-    .catch((error) => {
-      console.log('Что-то пошло не так...');
-    })
-    .finally(() => {
-      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
-      hidePopup(popupPlace);
-    });
+  .then(() => {
+    loadFullData()
+  })
+  .catch((error) => {
+    console.log('Что-то пошло не так...');
+  })
+  .finally(() => {
+    document.querySelector(activeSubmitButton).textContent = 'Сохранить';
+    hidePopup(popupPlace);
+  });
 }
 
 //------------------------------------------------------------------------------------- Добавление слушателя Aватар
