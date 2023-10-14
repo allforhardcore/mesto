@@ -1,11 +1,12 @@
 import Popup from './Popup.js'
 
 class PopupWithForm extends Popup {
-  constructor(popupSelector, submitCallback) {
+  constructor(popupSelector, submitCallback, buttonText) {
     super(popupSelector);
     this._submitCallback = submitCallback;
     this._form = this._popup.querySelector('.popup__form');
     this._inputList = this._form.querySelectorAll('.popup__input-item');
+    this._defaultButtonText = buttonText || 'Сохранить';
   }
 
   _getInputValues() {
@@ -27,6 +28,14 @@ class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset();
+  }
+
+  loading(loading) {
+    if (loading) {
+      this._form.querySelector('.popup__submit-button').textContent = 'Сохранение...';
+    } else {
+      this._form.querySelector('.popup__submit-button').textContent =  this._defaultButtonText;
+    }
   }
 }
 

@@ -41,12 +41,7 @@ const api = new Api({
 function loadFullData() {
   Promise.all([api.getUserInfo(), api.getInitialCards()])
     .then(([userData, cardsData]) => {
-      userInfo.setUserInfo({
-        name: userData.name,
-        about: userData.about,
-        avatar: userData.avatar,
-        _id: userData._id
-      });
+      userInfo.setUserInfo(userData);
 
       cardsSection.setItems(cardsData.reverse());
       cardsSection.renderItems();
@@ -67,23 +62,11 @@ const userInfo = new UserInfo({
   avatarSelector: '.profile__picture'
 });
 
-const loadUserData = () => {
-  api.getUserInfo()
-  .then((data) => {
-    userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar, _id: data._id})
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
-
-loadUserData();
-
 //------------------------------------------------------------------------------------- Создание попапов
 const popupPic = new PopupWithPicture('.popup_type_image');
 const popupAvatar = new PopupWithForm('.popup_type_avatar', handleAvatarFormSubmit);
 const popupProfile = new PopupWithForm('.popup_type_profile', handleProfileFormSubmit);
-const popupPlace = new PopupWithForm('.popup_type_place', handlePlaceFormSubmit);
+const popupPlace = new PopupWithForm('.popup_type_place', handlePlaceFormSubmit, 'Cоздать');
 const popupConfirmation = new PopupWithConfirmation('.popup_type_confirmation');
 
 //------------------------------------------------------------------------------------- Создание секции и рендер карточек
@@ -120,7 +103,11 @@ function createCard(item) {
     popupPic.open(cardData);
   }, popupConfirmation,
   (card) => {
-    api.removeCard(card._id).then(() => console.log('Deleted'))
+    api.removeCard(card._id)
+    .then(() => console.log('Deleted'))
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
   },
   (card) => {
     if (card._canLike) {
@@ -136,17 +123,17 @@ function createCard(item) {
 
 //------------------------------------------------------------------------------------- Ручка сабмита Аватар
 function handleAvatarFormSubmit() {
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
+  popupAvatar.loading(true);
   api.setAvatar({ avatar: avatarInput.value })
     .then((data) => {
-      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar });
+      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar, id: data._id});
+      hidePopup(popupAvatar);
     })
     .catch((error) => {
       console.log('Что-то пошло не так...');
     })
     .finally(() => {
-      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
-      hidePopup(popupAvatar);
+      popupAvatar.loading(false);
     });
 }
 
@@ -155,17 +142,17 @@ function handleAvatarFormSubmit() {
 function handleProfileFormSubmit(inputValues) {
   const newName = inputValues.popupInputProfileName;
   const newJob = inputValues.popupInputProfileAbout;
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...';
+  popupProfile.loading(true);
   api.editUserInfo({ name: newName, about: newJob })
     .then((data) => {
-      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar });
+      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar, id: data._id});
+      hidePopup(popupProfile);
     })
     .catch((error) => {
       console.log('Что-то пошло не так...');
     })
     .finally(() => {
-      document.querySelector(activeSubmitButton).textContent = 'Сохранить';
-      hidePopup(popupProfile);
+      popupProfile.loading(false);
     });
 }
 
@@ -176,20 +163,21 @@ function handlePlaceFormSubmit(inputValues) {
     link: inputValues.popupInputImageLink,
     _id: 'fake'
   };
-  const cardElement = createCard(newCardData);
-  document.querySelector(activeSubmitButton).textContent = 'Сохранение...'
+  popupPlace.loading(true);
   api.addCard(newCardData)
-  .then(() => {
-    loadFullData()
-  })
-  .catch((error) => {
-    console.log('Что-то пошло не так...');
-  })
-  .finally(() => {
-    document.querySelector(activeSubmitButton).textContent = 'Сохранить';
-    hidePopup(popupPlace);
-  });
+    .then((data) => {
+      const cardElement = createCard(data) ;
+      cardsSection.addItemPreview(cardElement);
+      hidePopup(popupPlace);
+    })
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
+    .finally(() => {
+      popupPlace.loading(false);
+    });
 }
+
 
 //------------------------------------------------------------------------------------- Добавление слушателя Aватар
 pictureEditButton.addEventListener('click', () => {

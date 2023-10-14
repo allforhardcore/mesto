@@ -13,6 +13,12 @@ class Card {
     this._likeHandler = likeHandler;
     this._userId = userId;
     this._canLike = data.likes && data.likes.some((like) => like._id === userId);
+
+    this._card = this._getTemplate();
+    this._cardImage = this._card.querySelector('.element__picture');
+    this._cardHeading = this._card.querySelector('.element__heading');
+    this._cardLikesBtn = this._card.querySelector('.element__like-button');
+    this._cardLikesCounter = this._card.querySelector('.element__like-counter');
   }
 
   _getTemplate() {
@@ -21,8 +27,6 @@ class Card {
   }
 //-------------------------------------------------------------------------- Я думал я умру от старости раньше чем это заработает
   _handleLikeClick = (event) => {
-    this._cardLikesCounter = this._card.querySelector('.element__like-counter');
-    this._cardLikesBtn = this._card.querySelector('.element__like-button');
 
     //-------------------------------------------------------------------------- Сохраняем текущее состояние
     const initialLikes = this._likes.slice();
@@ -30,26 +34,19 @@ class Card {
 
     //-------------------------------------------------------------------------- Немедленно переключаем кнопку "Нравится"
     this._likes = this._canLike
-      ? [...this._likes, { _id: this._userId }]
-      : this._likes.filter((userLikes) => userLikes._id !== this._userId);
+    ? [...this._likes, { _id: this._userId }]
+    : this._likes.filter((userLikes) => userLikes._id !== this._userId);
     this._canLike = !this._canLike;
+    this._likeHandler(this)     //------------- Эту штуку не убрать отсюда, если ее убрать не работает корректно изменение состояния кнопки
 
-    //-------------------------------------------------------------------------- Выполняем запрос API
-    this._likeHandler(this)
-      .then((data) => {
-        //-------------------------------------------------------------------------- Обновляем данные о лайках после успешного запроса
-        this._likes = data.likes;
-        this._canLike = data.likes.some((like) => like._id === this._userId);
-        this._updateLikeState();
-      })
-      .catch((error) => {
-        //-------------------------------------------------------------------------- Если запрос завершился неудачно, восстанавливаем исходное состояние
-        this._likes = initialLikes;
-        this._canLike = initialCanLike;
-        this._updateLikeState();
-        console.log('Ошибка:', error);
-        //-------------------------------------------------------------------------- Вы можете показать уведомление пользователю о том, что "Нравится" не удалось.
-      });
+    .then((data) => {
+      this._likes = data.likes;
+      this._canLike = data.likes.some((like) => like._id === this._userId);
+      this._updateLikeState();
+    })
+    .catch((error) => {
+      console.log('Что-то пошло не так...');
+    })
   }
 
   _updateLikeState() {
@@ -60,21 +57,10 @@ class Card {
       this._cardLikesBtn.classList.remove('element__like-button_state_activated');
     }
   }
-
-  _updateLikeState() {
-    this._cardLikesCounter.textContent = this._likes.length;
-    if (this._canLike) {
-      this._cardLikesBtn.classList.add('element__like-button_state_activated');
-    } else {
-      this._cardLikesBtn.classList.remove('element__like-button_state_activated');
-    }
-  }
-
-
 
   _handleDeleteClick = () => {
     this._popupWithConfirmation.setCardToDelete(this);
-    this._popupWithConfirmation._setDeleteHandler((_card) => {
+    this._popupWithConfirmation._setDeleteHandler(() => {
       this._card.remove();
       this._cardImage = null;
       this._cardHeading = null;
@@ -86,21 +72,20 @@ class Card {
   }
 
   createCard() {
-    this._card = this._getTemplate();
-    this._cardImage = this._card.querySelector('.element__picture');
-    this._cardHeading = this._card.querySelector('.element__heading');
-    this._cardLikesBtn = this._card.querySelector('.element__like-button');
-    this._cardLikesCounter = this._card.querySelector('.element__like-counter');
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardHeading.textContent = this._name;
-    this._cardLikesCounter.textContent = this._likes.length
-    if(this._canLike) {
-      this._cardLikesBtn.classList.add('element__like-button_state_activated')
+    this._cardLikesCounter.textContent = this._likes.length;
+
+    if (this._canLike) {
+      this._cardLikesBtn.classList.add('element__like-button_state_activated');
     }
 
     if (!this._canDelete) {
-      this._card.querySelector('.element__delete-button').remove();
+      const deleteButton = this._card.querySelector('.element__delete-button');
+      if (deleteButton) {
+        deleteButton.remove();
+      }
     }
 
     this._setEventListeners();
@@ -109,10 +94,10 @@ class Card {
   }
 
   _setEventListeners() {
-    this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick);
+    this._cardLikesBtn.addEventListener('click', this._handleLikeClick);
 
     if (this._canLike) {
-      this._card.querySelector('.element__like-button').classList.add('element__like-button_state_activated');
+      this._cardLikesBtn.classList.add('element__like-button_state_activated');
     }
 
     if (this._card.querySelector('.element__delete-button')) {
