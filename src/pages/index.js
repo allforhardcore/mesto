@@ -104,7 +104,9 @@ function createCard(item) {
   }, popupConfirmation,
   (card) => {
     api.removeCard(card._id)
-    .then(() => console.log('Deleted'))
+    .then((data) => {
+        card.deleteElement(data)
+    })
     .catch((error) => {
       console.log('Что-то пошло не так...');
     })
@@ -122,11 +124,12 @@ function createCard(item) {
 }
 
 //------------------------------------------------------------------------------------- Ручка сабмита Аватар
-function handleAvatarFormSubmit() {
+function handleAvatarFormSubmit(inputValues) {
+  const newAvatar = inputValues.popupInputAvatarLink;
   popupAvatar.loading(true);
-  api.setAvatar({ avatar: avatarInput.value })
+  api.setAvatar({ avatar: newAvatar })
     .then((data) => {
-      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar, id: data._id});
+      userInfo.setUserInfo(data);
       hidePopup(popupAvatar);
     })
     .catch((error) => {
@@ -137,7 +140,6 @@ function handleAvatarFormSubmit() {
     });
 }
 
-
 //------------------------------------------------------------------------------------- Ручка сабмита Профайл
 function handleProfileFormSubmit(inputValues) {
   const newName = inputValues.popupInputProfileName;
@@ -145,7 +147,7 @@ function handleProfileFormSubmit(inputValues) {
   popupProfile.loading(true);
   api.editUserInfo({ name: newName, about: newJob })
     .then((data) => {
-      userInfo.setUserInfo({ name: data.name, about: data.about, avatar: data.avatar, id: data._id});
+      userInfo.setUserInfo(data);
       hidePopup(popupProfile);
     })
     .catch((error) => {

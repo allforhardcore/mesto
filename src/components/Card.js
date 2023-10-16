@@ -61,15 +61,19 @@ class Card {
   _handleDeleteClick = () => {
     this._popupWithConfirmation.setCardToDelete(this);
     this._popupWithConfirmation._setDeleteHandler(() => {
-      this._card.remove();
-      this._cardImage = null;
-      this._cardHeading = null;
-      this._card = null;
-      this._popupWithConfirmation.close();
       this._deleteHandler(this)
     });
     this._popupWithConfirmation.open();
   }
+
+  deleteElement() {
+    this._card.remove();
+    this._cardImage = null;
+    this._cardHeading = null;
+    this._card = null;
+    this._popupWithConfirmation.close();
+  }
+
 
   createCard() {
     this._cardImage.src = this._link;

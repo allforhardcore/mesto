@@ -5,6 +5,7 @@ class PopupWithForm extends Popup {
     super(popupSelector);
     this._submitCallback = submitCallback;
     this._form = this._popup.querySelector('.popup__form');
+    this._submitButton = this._form.querySelector('.popup__submit-button')
     this._inputList = this._form.querySelectorAll('.popup__input-item');
     this._defaultButtonText = buttonText || 'Сохранить';
   }
@@ -32,9 +33,9 @@ class PopupWithForm extends Popup {
 
   loading(loading) {
     if (loading) {
-      this._form.querySelector('.popup__submit-button').textContent = 'Сохранение...';
+      this._submitButton.textContent = 'Сохранение...';
     } else {
-      this._form.querySelector('.popup__submit-button').textContent =  this._defaultButtonText;
+      this._submitButton.textContent =  this._defaultButtonText;
     }
   }
 }
