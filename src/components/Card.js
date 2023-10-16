@@ -60,7 +60,7 @@ class Card {
 
   _handleDeleteClick = () => {
     this._popupWithConfirmation.setCardToDelete(this);
-    this._popupWithConfirmation._setDeleteHandler(() => {
+    this._popupWithConfirmation.setDeleteHandler(() => {
       this._deleteHandler(this)
     });
     this._popupWithConfirmation.open();
